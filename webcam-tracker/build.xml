@@ -1,0 +1,102 @@
+<project name="MyProject" default="dist" basedir=".">
+	<property name="jar.name" value="webcam-tracker.jar" />
+	<property name="project.name" value="WebCam Tracker" />
+	<description>
+        simple build
+    </description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${dist}" />
+	</target>
+	<target name="init" depends="clean">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}" />
+	</target>
+
+	<target name="compile" depends="init" description="compile the source ">
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${build}">
+			<classpath>
+				<fileset dir="lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile" description="generate the distribution">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${dist}" />
+
+		<!-- create a property containing all .jar files, prefix lib/, and seperated with a space -->
+		<pathconvert property="libs.project" pathsep=" ">
+			<mapper>
+				<chainedmapper>
+
+					<!-- remove absolute path -->
+					<flattenmapper />
+
+					<!-- add lib/ prefix -->
+					<globmapper from="*" to="lib/*" />
+				</chainedmapper>
+			</mapper>
+
+			<path>
+
+				<!-- lib.home contains all jar files, in several subdirectories -->
+				<fileset dir="lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</path>
+		</pathconvert>
+
+		<copy todir="${build}">
+			<fileset dir="${src}">
+				<include name="**/*.properties" />
+			</fileset>
+		</copy>
+
+		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+		<jar jarfile="${dist}${file.separator}${jar.name}" basedir="${build}">
+			<!-- define MANIFEST.MF -->
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Main-Class" value="com.ra.wctracker.WebCamTracker" />
+				<section name="common">
+					<attribute name="Specification-Title" value="${project.name}" />
+					<attribute name="Specification-Version" value="${version}" />
+					<attribute name="Specification-Vendor" value="${user.name}" />
+					<attribute name="Implementation-Title" value="${project.name}" />
+					<attribute name="Implementation-Version" value="${version}" />
+					<attribute name="Implementation-Vendor" value="${user.name}" />
+				</section>
+				<!-- finally, use the magically generated libs path -->
+				<attribute name="Class-Path" value="${libs.project}" />
+			</manifest>
+		</jar>
+
+		<mkdir dir="${dist}${file.separator}lib" />
+
+		<copy todir="${dist}${file.separator}lib">
+			<fileset dir="lib">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<delete dir="${build}" />
+
+		<zip destfile="${dist}${file.separator}${project.name}.zip">
+			<fileset dir="${dist}">
+				<include name="**/*" />
+			</fileset>
+		</zip>
+	</target>
+
+</project>

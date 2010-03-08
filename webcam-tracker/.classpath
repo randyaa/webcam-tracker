@@ -5,8 +5,9 @@
 	<classpathentry kind="lib" path="lib/commons-io-1.4-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.4-sources.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.4.jar"/>
-	<classpathentry kind="lib" path="lib/swt-3.5.2-win32-win32-x86/swt-debug.jar" sourcepath="lib/swt-3.5.2-win32-win32-x86/src.zip"/>
-	<classpathentry kind="lib" path="lib/swt-3.5.2-win32-win32-x86/swt.jar"/>
-	<classpathentry kind="lib" path="gallery-0.5.2.jar" sourcepath="gallery-0.5.2-src.zip"/>
+	<classpathentry kind="lib" path="dist/webcam-tracker.jar"/>
+	<classpathentry kind="lib" path="lib/gallery-0.5.2.jar"/>
+	<classpathentry kind="lib" path="lib/swt-debug.jar"/>
+	<classpathentry kind="lib" path="lib/swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

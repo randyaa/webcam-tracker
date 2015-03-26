@@ -1,0 +1,1 @@
+Captures images from any WebCam on a regular interval. Images can then be turned into Time-Lapse videos with any Video Editing software.
